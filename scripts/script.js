@@ -4,6 +4,9 @@ const http = require('http')
 var querystring = require('querystring');
 
 robot.hear(/hola/i, (res) =>  {
+
+  validar(res.envelope.user.name,(obj)=>{
+    if (obj.result && obj.result){
       respuesta= "OPCIONES DISPONIBLES:\n\r";
       respuesta += "1 - Accion 1.\n\r";
       respuesta += "2 - Accion 2.\n\r";
@@ -12,6 +15,12 @@ robot.hear(/hola/i, (res) =>  {
       name = res.message.user.name.toLowerCase();
       robot.brain.set(name, user);
       res.send(respuesta); 
+    }else { //Usuario desconocido
+      res.send("Usuario NO registrado, por favor proceda a registrarse");
+    }
+  })
+
+  
 })
 
 function validar(id,fn){
